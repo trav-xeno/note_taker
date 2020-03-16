@@ -46,8 +46,8 @@ const PORT = 8080;
 // Sets up the Express app to handle data parsing
 app.use(exp.urlencoded({ extended: true }));
 app.use(exp.json());
-//app.use("/assets", exp.static(__dirname + "/public/assests"));
-//used this ^ on my own handwriten version
+//app.use(exp.static(__dirname + "/public/assests"));
+//used "/assets",  this ^ on my own handwriten version
 app.use(exp.static("public"));
 
 let notes: Array<Note> = [];
@@ -70,8 +70,9 @@ app.get("/api/notes", function(req, res) {
 });
 app.delete("/api/notes/:id", function(req, res) {
   let id = req.params.id;
-  console.log(id);
+
   notes = notes.filter(el => el.id !== id);
+  res.sendStatus(200);
 
   console.log(notes);
   let strnotes = JSON.stringify(notes);
@@ -86,6 +87,7 @@ app.post("/api/notes", function(req, res) {
   console.log(note);
   console.log(notes);
   let strnotes = JSON.stringify(notes);
+  res.sendStatus(201);
   writeDoc(strnotes);
 });
 

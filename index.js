@@ -42,8 +42,8 @@ var PORT = 8080;
 // Sets up the Express app to handle data parsing
 app.use(exp.urlencoded({ extended: true }));
 app.use(exp.json());
-//app.use("/assets", exp.static(__dirname + "/public/assests"));
-//used this ^ on my own handwriten version
+//app.use(exp.static(__dirname + "/public/assests"));
+//used "/assets",  this ^ on my own handwriten version
 app.use(exp.static("public"));
 var notes = [];
 //----------------------------------
@@ -64,8 +64,8 @@ app.get("/api/notes", function (req, res) {
 });
 app["delete"]("/api/notes/:id", function (req, res) {
     var id = req.params.id;
-    console.log(id);
     notes = notes.filter(function (el) { return el.id !== id; });
+    res.sendStatus(200);
     console.log(notes);
     var strnotes = JSON.stringify(notes);
     writeDoc(strnotes);
@@ -78,6 +78,7 @@ app.post("/api/notes", function (req, res) {
     console.log(note);
     console.log(notes);
     var strnotes = JSON.stringify(notes);
+    res.sendStatus(201);
     writeDoc(strnotes);
 });
 //sets any other url to homepage
